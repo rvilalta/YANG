@@ -1,0 +1,38 @@
+module intrusiondetection {
+  prefix "intrusion";
+  
+  description "";
+  
+  revision 2016-06-01 {
+    description "";
+  }
+
+
+  grouping room {
+    leaf doorsensorId {
+      type string;
+    }
+    leaf motionsensorId {
+      type string;
+    }
+  }
+  
+  container intrusiondetection {
+    leaf systemStatus {
+      type string;
+    }
+  
+  }
+  
+  rpc arm-system {
+    description "Arm the system";
+  }
+  
+  rpc disarm-system {
+    description "Disarm the system";
+  }
+  
+  notification intrusionDetected {
+    description "Intrusion!";
+  }
+}
