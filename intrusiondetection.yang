@@ -1,4 +1,5 @@
 module intrusiondetection {
+  namespace "http://intrusiondetection/";
   prefix "intrusion";
   
   description "";
