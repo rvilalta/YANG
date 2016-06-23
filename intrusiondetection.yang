@@ -40,4 +40,71 @@ module intrusiondetection {
       description
       "The location of the system";
   }
-    le
+    leaf systemStatus{
+      type enumeration {
+        enum up {
+        value 1;
+        description
+          "The system is powered up";
+        }
+        enum down {
+        value 2;
+        description
+          "The system is powered down";
+        }
+        enum armed {
+        value 3;
+        description 
+        "System is armed";
+        }
+        enum disarmed {
+        value 4;
+        description 
+          "System is disarmed";
+        }
+      }
+      config false;
+      mandatory true;
+      description
+      "This variable indicates the current state of the system";
+    }
+    container sensors {
+    uses room;
+    config false;
+  }
+  }
+  
+  rpc arm-system {
+    description 
+    "Arm the system";
+  }
+  
+  rpc disarm-system {
+    description 
+    "Disarm the system";
+  }
+  
+  notification systemArmed {
+    description 
+    "Indicates that system has been armed.";
+  
+  leaf armStatus {
+    description
+    "Indicates the system arming status";
+      type enumaration {
+        enum armed {
+        description 
+          "The system was armed.";
+        }
+        enum disarmed {
+        description
+          "The system was disarmed.";
+        }
+        enum error {
+        description 
+          "The system is broke";
+        }
+      }
+    }
+  }
+}
