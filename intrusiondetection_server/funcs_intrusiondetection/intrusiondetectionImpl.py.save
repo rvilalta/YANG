@@ -1,0 +1,142 @@
+import os.path, sys
+sys.path.append(os.path.join('/'.join(os.path.dirname(os.path.realpath(__file__)).split('/')[:-1])))
+import backend.backend as be
+import cv2
+import sys
+import threading 
+import numpy as np
+import datetime
+
+thread1 = None
+
+class MyThread (threading.Thread):
+    maxRetries = 20
+
+    def __init__(self, thread_id, name, video_url, thread_lock):
+        threading.Thread.__init__(self)
+        self.thread_id = thread_id
+        self.name = name
+        self.video_url = video_url
+        self.thread_lock = thread_lock
+        self._stop = threading.Event()
+        
+    def run(self):
+        print "Starting " + self.name
+        window_name = self.name
+        cv2.namedWindow(window_name)
+        video = cv2.VideoCapture(self.video_url)
+        video.set(4,1024)
+        while True:
+            got_a_frame, image = video.read()
+            text="Unoccupied"
+            
+            
+            cv2.putText(image, "Room Status: {}".format(text), (10, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
+            cv2.putText(image, datetime.datetime.now().strftime("%A %d %B %Y %I:%M:%S%p"), (10, image.shape[0] - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.35, (0, 0, 255), 1)
+            cv2.imshow(window_name, image)
+            key = cv2.waitKey(50)
+            if self._stop.isSet():
+                break
+            if key == 27:
+                break
+        cv2.destroyAllWindows() 
+	cv2.VideoCapture(self.video_url).release()
+
+        print self.name + " Exiting"
+
+    def stop(self):
+        self._stop.set()
+
+class IntrusiondetectionImpl:
+
+    @classmethod
+    def put(cls, intrusiondetectionschema):
+        print str(intrusiondetectionschema)
+        print 'handling put'
+        if "disarmed" in str(intrusiondetectionschema):
+            #sys.exit(0)
+            # Stop the thread
+            print "Stop thread"
+            global thread1
+            thread1.stop()
+            
+        elif "armed" in str(intrusiondetectionschema):	
+       		#Start the thread
+           	thread_lock = threading.Lock()
+                global thread1            
+                thread1 = MyThread(1, "Thread 1", 0, thread_lock)
+		thread1.start()
+		# initialize the first frame in the video stream
+		firstFrame = None
+		#GET FPS
+		fps=camera.get(cv2.cv.CV_CAP_PROP_FPS)
+		# loop over the contours
+		for c in cnts:
+			# if the contour is too small, ignore it
+			if cv2.contourArea(c) < args["min_area"]:
+                		continue
+
+			# compute the bounding box for the contour, draw it on the frame,
+			# and update the text
+			(x, y, w, h) = cv2.boundingRect(c)
+			cv2.rectangle(frame_resized, (x, y), (x + w, y + h), (0, 255, 0), 2)
+			text = "Occupied"
+            	if args["record"]:
+            		#Intrusion detected!    
+            		if text=="Occupied" and is_video_init==False:
+                		(h, w) = frame.shape[:2]
+                		writer=init_video_recorder(h,w,fps)
+                		is_video_init=True
+            		#During intrusion we record
+            		if text=="Occupied":
+                		writer.write(frame)
+            		#No longer intrusion - We store and transfer
+            		if text=="Unoccupied" and is_video_init==True:
+                		deinit_video_recorder(writer)
+                		transfer_file(video_name(video_counter))
+                		is_video_init=False
+                		video_counter+=1
+		#Show images if not daemon
+		if args["daemon"]==False:
+            		# draw the text and timestamp on the frame
+            		cv2.putText(frame_resized, "Room Status: {}".format(text), (10, 20),
+                		cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
+            		cv2.putText(frame_resized, datetime.datetime.now().strftime("%A %d %B %Y %I:%M:%S%p"),
+                		(10, frame_resized.shape[0] - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.35, (0, 0, 255), 1)
+                		# show the frame and record if the user presses a key
+            		cv2.imshow("Security Feed", frame_resized)
+            		cv2.imshow("Thresh", thresh)
+            		cv2.imshow("Frame Delta", frameDelta)	
+
+
+
+
+
+
+
+
+
+
+    @classmethod
+    def post(cls, intrusiondetectionschema):
+        print str(intrusiondetectionschema)
+        print 'handling post'
+        be.intrusiondetection = intrusiondetectionschema
+
+    @classmethod
+    def delete(cls, ):
+        print 'handling delete'
+        if be.intrusiondetection:
+            del be.intrusiondetection
+        else:
+            raise KeyError('')
+
+    @classmethod
+    def get(cls, ):
+        print 'handling get'
+        if be.intrusiondetection:
+            return be.intrusiondetection
+        else:
+            raise KeyError('')
+
+

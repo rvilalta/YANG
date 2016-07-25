@@ -1,0 +1,226 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "description": "intrusiondetection API generated from intrusiondetection.yang",
+        "title": "intrusiondetection API"
+    },
+    "host": "localhost:8080",
+    "basePath": "/restconf",
+    "schemes": [
+        "http"
+    ],
+    "paths": {
+        "/config/intrusiondetection/": {
+            "put": {
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Internal Error"
+                    }
+                },
+                "description": "Update operation of resource: intrusiondetection",
+                "parameters": [
+                    {
+                        "required": true,
+                        "description": "intrusiondetectionbody object",
+                        "schema": {
+                            "$ref": "#/definitions/IntrusiondetectionSchema"
+                        },
+                        "name": "intrusiondetection",
+                        "in": "body"
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Update intrusiondetection by ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "operationId": "updateIntrusiondetectionById"
+            },
+            "post": {
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Internal Error"
+                    }
+                },
+                "description": "Create operation of resource: intrusiondetection",
+                "parameters": [
+                    {
+                        "required": true,
+                        "description": "intrusiondetectionbody object",
+                        "schema": {
+                            "$ref": "#/definitions/IntrusiondetectionSchema"
+                        },
+                        "name": "intrusiondetection",
+                        "in": "body"
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Create intrusiondetection by ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "operationId": "createIntrusiondetectionById"
+            },
+            "delete": {
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Internal Error"
+                    }
+                },
+                "produces": [
+                    "application/json"
+                ],
+                "description": "Delete operation of resource: intrusiondetection",
+                "summary": "Delete intrusiondetection by ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "operationId": "deleteIntrusiondetectionById"
+            },
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/IntrusiondetectionSchema"
+                        }
+                    },
+                    "400": {
+                        "description": "Internal Error"
+                    }
+                },
+                "description": "Retrieve operation of resource: intrusiondetection",
+                "parameters": [],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Retrieve intrusiondetection",
+                "consumes": [
+                    "application/json"
+                ],
+                "operationId": "retrieveIntrusiondetection"
+            }
+        },
+        "/config/intrusiondetection/sensors/": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/Room"
+                        }
+                    },
+                    "400": {
+                        "description": "Internal Error"
+                    }
+                },
+                "description": "Retrieve operation of resource: sensors",
+                "parameters": [],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Retrieve sensors",
+                "consumes": [
+                    "application/json"
+                ],
+                "operationId": "retrieveIntrusiondetectionSensorsSensors"
+            }
+        },
+        "/operations/armsystem/": {
+            "post": {
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Internal Error"
+                    }
+                },
+                "description": "Create operation of resource: armsystem",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Create armsystem by ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "operationId": "createArmsystemById"
+            }
+        },
+        "/operations/disarmsystem/": {
+            "post": {
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Internal Error"
+                    }
+                },
+                "description": "Create operation of resource: disarmsystem",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Create disarmsystem by ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "operationId": "createDisarmsystemById"
+            }
+        }
+    },
+    "definitions": {
+        "Room": {
+            "properties": {
+                "doorsensorID": {
+                    "type": "string",
+                    "description": "ID of door sensor in the room"
+                },
+                "motionsensorID": {
+                    "type": "string",
+                    "description": "ID of motion sensor in the room"
+                }
+            }
+        },
+        "IntrusiondetectionSchema": {
+            "description": "Top-level container for all system objects.",
+            "properties": {
+                "systemLocation": {
+                    "type": "string",
+                    "description": "The location of the system"
+                },
+                "sensors": {
+                    "$ref": "#/definitions/Room"
+                },
+                "systemID": {
+                    "type": "string",
+                    "description": "ID of the system"
+                },
+                "systemStatus": {
+                    "enum": [
+                        "up",
+                        "down",
+                        "armed",
+                        "disarmed"
+                    ],
+                    "type": "string",
+                    "description": "This variable indicates the current state of the system"
+                }
+            }
+        }
+    }
+}
