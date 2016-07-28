@@ -8,7 +8,7 @@ class IntrusiondetectionSchema(JsonObject):
         self.systemLocation=""
         self.sensors=Room() #import
         self.systemID=""
-        self.systemStatus=Systemstatus(0)
+        self.systemStatus=Systemstatus(4)
         super(IntrusiondetectionSchema, self).__init__(json_struct)
 
 class Systemstatus(EnumType):

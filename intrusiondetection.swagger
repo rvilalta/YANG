@@ -186,6 +186,13 @@
     "definitions": {
         "Room": {
             "properties": {
+                "status": {
+                    "enum": [
+                        "occupied",
+                        "unoccupied"
+                    ],
+                    "type": "string"
+                },
                 "doorsensorID": {
                     "type": "string",
                     "description": "ID of door sensor in the room"

@@ -4,6 +4,7 @@ import json
 from objects_common.keyedArrayType import KeyedArrayType
 from objects_intrusiondetection.intrusiondetectionSchema import IntrusiondetectionSchema as IntrusiondetectionSchema_object
 
+
 """
 class TopLevelObject(jsonObject):
     def __init__(self):

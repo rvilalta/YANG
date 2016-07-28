@@ -7,6 +7,7 @@ import imutils
 import threading 
 import numpy as np
 import datetime
+from objects_intrusiondetection.room import Status 
 
 def video_name(video_counter):
     video_name='test'+str(video_counter)+'.avi'
@@ -107,6 +108,7 @@ class MyThread (threading.Thread):
                 (h, w) = frame.shape[:2]
                 writer=init_video_recorder(h,w,fps)
                 is_video_init=True
+                be.intrusiondetection.sensors.status=Status(1)
             #During intrusion we record
             if text=="Occupied":
                 writer.write(frame)
@@ -116,7 +118,8 @@ class MyThread (threading.Thread):
                 transfer_file(video_name(video_counter))
                 is_video_init=False
                 video_counter+=1
-
+                be.intrusiondetection.sensors.status=Status(2)
+                
             cv2.putText(frame, "Room Status: {}".format(text), (10, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)    
             cv2.putText(frame, datetime.datetime.now().strftime("%A %d %B %Y %I:%M:%S%p"), (10, frame.shape[0] - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.35, (0, 0, 255), 1)
             cv2.imshow(window_name, frame)

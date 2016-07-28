@@ -10,7 +10,19 @@ module intrusiondetection {
     description "Intrusion Detection System";
   }
 
-
+  typedef roomStatus {
+      type enumeration {
+        enum occupied{
+            value 1;
+            description "The room is occupied";
+        }
+        enum unoccupied {
+            value 2;
+            description "The room is unoccupied";
+        }
+      }
+   }
+   
   grouping room {
     leaf doorsensorID {
       type string;
@@ -19,6 +31,9 @@ module intrusiondetection {
     leaf motionsensorID {
       type string;
       description "ID of motion sensor in the room";
+    }
+    leaf status {
+       type roomStatus;
     }
   }
   
