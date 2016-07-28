@@ -61,8 +61,9 @@ class MyThread (threading.Thread):
         #GET FPS
         fps=video.get(cv2.cv.CV_CAP_PROP_FPS)
         MIN_AREA=250
-
+        
         while True:
+            
             grabbed,frame= video.read()
             text="Unoccupied"
 
@@ -122,6 +123,9 @@ class MyThread (threading.Thread):
             cv2.imshow("Thresh", thresh)
             cv2.imshow("Frame Delta", frameDelta)
             cv2.imshow("Security Feed", frame_resized)
+            cv2.waitKey(1)
+            
+
 
             #update first frame
             del(firstFrame)
@@ -132,18 +136,21 @@ class MyThread (threading.Thread):
             
             if self._stop.isSet():
                 break
-            if key == 27:# initialize the first frame in the video stream
-    		firstFrame = None
-
-                break
-        cv2.destroyAllWindows() 
-	cv2.VideoCapture(self.video_url).release()
-
-        print self.name + " Exiting"
-
+                print self.name + " Exiting"
+                cv2.waitKey(1000)
+                cv2.DestroyAllWindows()
+                
+                
+        
+        
     def stop(self):
+        print self.name + " Stopped"
         self._stop.set()
-
+        
+        
+        
+        
+        
 class IntrusiondetectionImpl:
 
     @classmethod
@@ -157,21 +164,14 @@ class IntrusiondetectionImpl:
             global thread1
             thread1.stop()
             
+
+            
         elif "armed" in str(intrusiondetectionschema):	
         	#Start the thread
         	thread_lock = threading.Lock()
         	global thread1
         	thread1 = MyThread(1, "Thread 1", 0, thread_lock)
         	thread1.start()
-        	
-
-
-
-
-
-
-
-
 
 
     @classmethod

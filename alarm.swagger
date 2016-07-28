@@ -1,0 +1,74 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "description": "alarm API generated from alarm.yang",
+        "title": "alarm API"
+    },
+    "host": "localhost:8080",
+    "basePath": "/restconf",
+    "schemes": [
+        "http"
+    ],
+    "paths": {
+        "/config/alarm/": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/Alarm"
+                        }
+                    },
+                    "400": {
+                        "description": "Internal Error"
+                    }
+                },
+                "description": "Retrieve operation of resource: alarm",
+                "parameters": [],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Retrieve alarm",
+                "consumes": [
+                    "application/json"
+                ],
+                "operationId": "retrieveAlarm"
+            }
+        },
+        "/operations/triggerAlarm/": {
+            "post": {
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Internal Error"
+                    }
+                },
+                "description": "Create operation of resource: triggerAlarm",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Create triggerAlarm by ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "operationId": "createTriggerAlarmById"
+            }
+        }
+    },
+    "definitions": {
+        "Alarm": {
+            "properties": {
+                "status": {
+                    "enum": [
+                        "up",
+                        "down"
+                    ],
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

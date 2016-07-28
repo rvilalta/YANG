@@ -1,0 +1,42 @@
+module alarm {
+
+  namespace "http://netconfcentral.org/ns/intrusiondetection";
+
+  prefix "alarm";
+  
+  description "YANG module for Intrusion Detection System";
+  
+  revision 2016-06-23 {
+    description "Alarm System";
+  }
+
+  typedef status {
+      type enumeration {
+        enum up {
+            value 1;
+            description "The system is powered up";
+        }
+        enum down {
+            value 2;
+            description "The system is powered down";
+        }
+      }
+   }
+
+  grouping alarm {
+    leaf status {
+        type status;
+    }
+  }
+  
+  container alarm {
+    uses alarm;
+    config false;
+  }
+  
+  rpc triggerAlarm {
+    description "Ring the alarm";
+  }
+    
+ 
+}
