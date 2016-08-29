@@ -188,8 +188,10 @@ class IntrusiondetectionSensorsMethodView(MethodView):
 class IntrusiondetectionMethodView(MethodView):
 
     def put(self, ):
+        print "HI"
         print "Update operation of resource: intrusiondetection"
         json_struct = request.get_json() #json parser.
+        print json_struct
         try:
             existing_object = IntrusiondetectionImpl.get()
         except KeyError as inst:
